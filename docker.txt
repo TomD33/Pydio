@@ -1,0 +1,9 @@
+docker create \
+--name=pydio \
+-v /etc/localtime:/etc/localtime:ro \
+-v /var/lib/mysql \
+-v $(pwd)/config:/config \
+-v $(pwd)/data:/data \
+-p 443:443 \
+-p 8080:80 \
+linuxserver/pydio

@@ -1,0 +1,40 @@
+version: '3.7'
+
+networks:
+  main:
+
+# Information sur base de donnée 
+
+services:
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: totototo
+      MYSQL_DATABASE: pydio
+    networks:
+      main:
+        aliases:
+          - db
+          - db.test
+# Configuration des images & volumes 
+# ./ pour l'éxecution des fichers lors de lauch le docker-compose up
+  pydio:
+    image: linuxserver/pydio
+    volumes:
+      - /var/lib/mysql
+      - /etc/localtime:/etc/localtime:ro
+      - ./config:/config
+      - ./data:/data
+      - ./mysql:/mysql
+
+# On définit les ports ou on va attribuer le prompt
+    ports:
+      - "8080:80"
+      - "443:443"
+    networks:
+      main:
+        aliases:
+          - pydio
+          - pydio.test
